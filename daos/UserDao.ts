@@ -26,7 +26,7 @@ export default class UserDao implements UserDaoI {
     async createUser(user: User): Promise<User> {
         const userMongooseModel = await UserModel.create(user);
         return new User(
-            userMongooseModel?._id??'',
+            userMongooseModel?._id.toString()??'',
             userMongooseModel?.username??'',
             userMongooseModel?.password??'',
         );
