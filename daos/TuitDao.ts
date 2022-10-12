@@ -1,11 +1,11 @@
 import Tuit from "../models/Tuit";
 import TuitModel from "../mongoose/TuitModel";
-import TuitModelI from "../interfaces/TuitDao";
+import TuitDaoI from "../interfaces/TuitDao";
 
-export default class TuitDao implements TuitModelI {
+export default class TuitDao implements TuitDaoI {
     async findAllTuits(): Promise<Tuit[]> {
-        const tuitMongooseModel = await TuitModel.find();
-        const tuitModels = tuitMongooseModel
+        const tuitMongooseModels = await TuitModel.find();
+        const tuitModels = tuitMongooseModels
             .map((tuitMongooseModel) => {
                 return new Tuit(
                     tuitMongooseModel?._id.toString()??'',
@@ -40,7 +40,7 @@ export default class TuitDao implements TuitModelI {
             }});
     }
 
-    async findTuitsByUser(uid: string): Promise<any> {
+    async findTuitsByUser(uid: string): Promise<Tuit> {
         const tuitMongooseModel = await TuitModel.findById(uid);
         return new Tuit(
             tuitMongooseModel?._id.toString()??'',

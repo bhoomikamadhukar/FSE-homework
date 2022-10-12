@@ -17,8 +17,8 @@ const TuitModel_1 = __importDefault(require("../mongoose/TuitModel"));
 class TuitDao {
     findAllTuits() {
         return __awaiter(this, void 0, void 0, function* () {
-            const tuitMongooseModel = yield TuitModel_1.default.find();
-            const tuitModels = tuitMongooseModel
+            const tuitMongooseModels = yield TuitModel_1.default.find();
+            const tuitModels = tuitMongooseModels
                 .map((tuitMongooseModel) => {
                 var _a, _b;
                 return new Tuit_1.default((_a = tuitMongooseModel === null || tuitMongooseModel === void 0 ? void 0 : tuitMongooseModel._id.toString()) !== null && _a !== void 0 ? _a : '', (_b = tuitMongooseModel === null || tuitMongooseModel === void 0 ? void 0 : tuitMongooseModel.tuit) !== null && _b !== void 0 ? _b : '');
