@@ -1,3 +1,6 @@
+/**
+ * @file Interface that has method signatures for API for Messages related data access object methods
+ */
 import User from "../models/User";
 import Message from "../models/Message"
 export default interface MessageDao {

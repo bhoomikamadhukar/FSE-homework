@@ -1,3 +1,6 @@
+/**
+ * @file Interface that has method signatures for API for Messages related controller methods
+ */
 import {Request, Response} from "express";
 
 export default interface MessageControllerI {

@@ -7,7 +7,7 @@ import User from "../models/User";
 import UserDaoI from "../interfaces/UserDao";
 
 /**
- * Implements Data Access Object managing data storage
+ * @class Implements Data Access Object managing data storage
  * of Users
  * @implements {UserDaoI} UserDaoI
  * @property {UserDao} userDao Private single instance of UserDao

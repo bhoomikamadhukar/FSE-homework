@@ -1,3 +1,6 @@
+/**
+ * @file Interface that has method signatures for API for Follows related data access object methods
+ */
 import Follow from "../models/Follow";
 import User from "../models/User";
 

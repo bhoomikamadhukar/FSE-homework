@@ -1,3 +1,6 @@
+/**
+ * @file Interface that has method signatures for API for Likes related data access object methods
+ */
 import Like from "../models/Like";
 import Tuit from "../models/Tuit";
 import User from "../models/User";

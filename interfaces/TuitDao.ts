@@ -1,3 +1,6 @@
+/**
+ * @file Interface that has method signatures for API for Tuits related data access object methods
+ */
 import Tuit from "../models/Tuit";
 
 export default interface TuitDaoI {

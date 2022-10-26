@@ -1,3 +1,6 @@
+/**
+ * @file Interface that has method signatures for API for Bookmarks related data access object methods
+ */
 import Bookmark from "../models/Bookmark";
 import User from "../models/User";
 import Tuit from "../models/Tuit"
