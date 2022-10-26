@@ -6,8 +6,8 @@ import User from "../models/User";
 
 
 export default class MessageDao implements MessageDaoI {
-    userMessagesUser = async (message:Message): Promise<Message> =>
-        MessageModel.create({...message});
+    userMessagesUser =  async (uid1: string, uid2: string, message: Message): Promise<Message> =>
+        MessageModel.create({...message, sentTo: uid2, sentFrom: uid1});
 
     userDeletesMessage = async (mid:string): Promise<any> =>
         MessageModel.deleteOne({_id:mid});
@@ -15,13 +15,13 @@ export default class MessageDao implements MessageDaoI {
     findAllSentMessages = async (uid: string): Promise<Message[]> =>
         MessageModel
             .find({sentFrom: uid})
-            .populate("sentFrom")
+            .populate("message")
             .exec();
 
     findAllRecievedMessages = async (uid: string): Promise<Message[]> =>
         MessageModel
             .find({sentTo: uid})
-            .populate("sentTo")
+            .populate("message")
             .exec();
 
     private static messageDao: MessageDao | null = null;

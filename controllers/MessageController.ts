@@ -12,7 +12,7 @@ export default class MessageController implements MessageControllerI {
             app.post("/api/users/:uid1/messages/:uid2", MessageController.MessageController.userMessagesUser);
             app.get("/api/users/:uid/sentMessages", MessageController.MessageController.findAllSentMessages);
             app.get("/api/users/:uid/recievedMessages", MessageController.MessageController.findAllRecievedMessages);
-            app.delete("/api/users/:uid1/messages/:uid2", MessageController.MessageController.userDeletesMessage);
+            app.delete("/api/messages/:mid/", MessageController.MessageController.userDeletesMessage);
         }
         return MessageController.MessageController;
     }
@@ -22,17 +22,17 @@ export default class MessageController implements MessageControllerI {
 
     findAllSentMessages = (req: Request, res: Response) =>
         MessageController.messageDao.findAllSentMessages(req.params.uid)
-            .then((message: Message[]) => res.json(message));
+            .then((messages) => res.json(messages));
 
 
     findAllRecievedMessages = (req: Request, res: Response) =>
         MessageController.messageDao.findAllRecievedMessages(req.params.uid)
-            .then((message: Message[]) => res.json(message));
+            .then((messages) => res.json(messages));
 
 
     userMessagesUser = (req: Request, res: Response) =>
-        MessageController.messageDao.userMessagesUser(req.body)
-            .then((message: Message) => res.json(message));
+        MessageController.messageDao.userMessagesUser(req.params.uid1,req.params.uid2,req.body)
+            .then((message:Message) => res.json(message));
 
 
     userDeletesMessage = (req: Request, res: Response) =>

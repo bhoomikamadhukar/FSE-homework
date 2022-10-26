@@ -15,18 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const MessageModel_1 = __importDefault(require("../mongoose/MessageModel"));
 class MessageDao {
     constructor() {
-        this.userMessagesUser = (message) => __awaiter(this, void 0, void 0, function* () { return MessageModel_1.default.create(Object.assign({}, message)); });
+        this.userMessagesUser = (uid1, uid2, message) => __awaiter(this, void 0, void 0, function* () { return MessageModel_1.default.create(Object.assign(Object.assign({}, message), { sentTo: uid2, sentFrom: uid1 })); });
         this.userDeletesMessage = (mid) => __awaiter(this, void 0, void 0, function* () { return MessageModel_1.default.deleteOne({ _id: mid }); });
         this.findAllSentMessages = (uid) => __awaiter(this, void 0, void 0, function* () {
             return MessageModel_1.default
                 .find({ sentFrom: uid })
-                .populate("sentFrom")
+                .populate("message")
                 .exec();
         });
         this.findAllRecievedMessages = (uid) => __awaiter(this, void 0, void 0, function* () {
             return MessageModel_1.default
                 .find({ sentTo: uid })
-                .populate("sentTo")
+                .populate("message")
                 .exec();
         });
     }
