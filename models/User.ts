@@ -1,7 +1,27 @@
+/**
+ * @file Creates a user model which represents
+ * the user datatype.
+ */
 import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";
 
+/**
+ * @typedef User Represents Users of Tuiter
+ * @property {ObjectId} _id Unique identifier of User collection
+ * @property {string} username username of User
+ * @property {string} password password of User
+ * @property {string} firstName firstname of User
+ * @property {string} lastName lastname of User
+ * @property {string} email email address of User
+ * @property {string} profilePhoto link to profile photo
+ * @property {string} headerImage link to header image
+ * @property {User} biography bio of User
+ * @property {Date} dateOfBirth date of birth of User
+ * @property {AccountType} accountType account type of User
+ * @property {MaritalStatus} maritalStatus marital status of User
+ * @property {Location} location Location of User
+ */
 export default class User {
   private id: string = '';
    private username: string = '';
@@ -17,9 +37,5 @@ export default class User {
    private dateOfBirth: Date | null = null;
    private joined: Date = new Date();
    private location: Location | null = null;
-   constructor(id: string, username: string, password: string) {
-        this.id = id; this.username = username; this.password = password;
-    }
-    get uName() { return this.username; }
-    get pass() { return this.password; }
+
 }

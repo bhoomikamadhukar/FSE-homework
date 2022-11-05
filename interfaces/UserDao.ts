@@ -1,3 +1,6 @@
+/**
+ * @file Interface that has method signatures for API for Users related data access object methods
+ */
 import User from "../models/User";
 
 export default interface UserDao {

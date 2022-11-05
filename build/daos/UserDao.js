@@ -12,46 +12,53 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const User_1 = __importDefault(require("../models/User"));
+/**
+ * @file Implements DAO managing data storage of users. Uses mongoose UserModel
+ * to integrate with MongoDB
+ */
 const UserModel_1 = __importDefault(require("../mongoose/UserModel"));
+/**
+ * Implements Data Access Object managing data storage
+ * of Users
+ * @implements {UserDaoI} UserDaoI
+ * @property {UserDao} userDao Private single instance of UserDao
+ */
 class UserDao {
-    findAllUsers() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const userMongooseModels = yield UserModel_1.default.find();
-            const userModels = userMongooseModels
-                .map((userMongooseModel) => {
-                var _a, _b, _c;
-                return new User_1.default((_a = userMongooseModel === null || userMongooseModel === void 0 ? void 0 : userMongooseModel._id.toString()) !== null && _a !== void 0 ? _a : '', (_b = userMongooseModel === null || userMongooseModel === void 0 ? void 0 : userMongooseModel.username) !== null && _b !== void 0 ? _b : '', (_c = userMongooseModel === null || userMongooseModel === void 0 ? void 0 : userMongooseModel.password) !== null && _c !== void 0 ? _c : '');
-            });
-            return userModels;
+    constructor() {
+        /**
+          * Retrieves all users from the database and returns an array of users.
+          */
+        this.findAllUsers = () => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.find().exec(); });
+        /**
+          * Retrieves user object from the database for a particular user id and returns
+          * a user object.
+          * @param {String} uid user id
+          */
+        this.findUserById = (uid) => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.findById(uid); });
+        /**
+         * Create user
+          * @param {User} user user object
+          */
+        this.createUser = (user) => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.create(user); });
+        /** Update user
+          * @param {String} uid user id
+          * @param {User} user user object
+          */
+        this.updateUser = (uid, user) => __awaiter(this, void 0, void 0, function* () {
+            return UserModel_1.default.updateOne({ _id: uid }, { $set: user });
         });
-    }
-    findUserById(uid) {
-        var _a, _b, _c;
-        return __awaiter(this, void 0, void 0, function* () {
-            const userMongooseModel = yield UserModel_1.default.findById(uid);
-            return new User_1.default((_a = userMongooseModel === null || userMongooseModel === void 0 ? void 0 : userMongooseModel._id.toString()) !== null && _a !== void 0 ? _a : '', (_b = userMongooseModel === null || userMongooseModel === void 0 ? void 0 : userMongooseModel.username) !== null && _b !== void 0 ? _b : '', (_c = userMongooseModel === null || userMongooseModel === void 0 ? void 0 : userMongooseModel.password) !== null && _c !== void 0 ? _c : '');
-        });
-    }
-    createUser(user) {
-        var _a, _b, _c;
-        return __awaiter(this, void 0, void 0, function* () {
-            const userMongooseModel = yield UserModel_1.default.create(user);
-            return new User_1.default((_a = userMongooseModel === null || userMongooseModel === void 0 ? void 0 : userMongooseModel._id.toString()) !== null && _a !== void 0 ? _a : '', (_b = userMongooseModel === null || userMongooseModel === void 0 ? void 0 : userMongooseModel.username) !== null && _b !== void 0 ? _b : '', (_c = userMongooseModel === null || userMongooseModel === void 0 ? void 0 : userMongooseModel.password) !== null && _c !== void 0 ? _c : '');
-        });
-    }
-    deleteUser(uid) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield UserModel_1.default.deleteOne({ _id: uid });
-        });
-    }
-    updateUser(uid, user) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield UserModel_1.default.updateOne({ _id: uid }, { $set: {
-                    username: user.uName,
-                    password: user.pass
-                } });
-        });
+        /** Delete the user
+          * @param {String} uid user id
+        **/
+        this.deleteUser = (uid) => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.deleteOne({ _id: uid }); });
     }
 }
 exports.default = UserDao;
+UserDao.userDao = null;
+UserDao.getInstance = () => {
+    if (UserDao.userDao === null) {
+        UserDao.userDao = new UserDao();
+    }
+    return UserDao.userDao;
+};
+;

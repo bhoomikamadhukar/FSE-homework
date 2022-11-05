@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const AccountType_1 = __importDefault(require("./AccountType"));
 const MaritalStatus_1 = __importDefault(require("./MaritalStatus"));
 class User {
-    constructor(id, username, password) {
+    constructor() {
         this.id = '';
         this.username = '';
         this.password = '';
@@ -21,11 +21,6 @@ class User {
         this.dateOfBirth = null;
         this.joined = new Date();
         this.location = null;
-        this.id = id;
-        this.username = username;
-        this.password = password;
     }
-    get uName() { return this.username; }
-    get pass() { return this.password; }
 }
 exports.default = User;

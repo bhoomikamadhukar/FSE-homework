@@ -1,43 +1,55 @@
-import User from "../models/User";
+/**
+ * @file Implements DAO managing data storage of users. Uses mongoose UserModel
+ * to integrate with MongoDB
+ */
 import UserModel from "../mongoose/UserModel";
+import User from "../models/User";
 import UserDaoI from "../interfaces/UserDao";
 
+/**
+ * @class Implements Data Access Object managing data storage
+ * of Users
+ * @implements {UserDaoI} UserDaoI
+ * @property {UserDao} userDao Private single instance of UserDao
+ */
 export default class UserDao implements UserDaoI {
-    async findAllUsers(): Promise<User[]> {
-        const userMongooseModels = await UserModel.find();
-        const userModels = userMongooseModels
-            .map((userMongooseModel) => {
-                return new User(
-                    userMongooseModel?._id.toString()??'',
-                    userMongooseModel?.username??'',
-                    userMongooseModel?.password??'',
-                );
-            });
-        return userModels;
+    private static userDao: UserDao | null = null;
+    public static getInstance = (): UserDao => {
+        if(UserDao.userDao === null) {
+            UserDao.userDao = new UserDao();
+        }
+        return UserDao.userDao;
     }
-    async findUserById(uid: string): Promise<User> {
-        const userMongooseModel = await UserModel.findById(uid);
-        return new User(
-            userMongooseModel?._id.toString()??'',
-            userMongooseModel?.username??'',
-            userMongooseModel?.password??'',
-        );
-    }
-    async createUser(user: User): Promise<User> {
-        const userMongooseModel = await UserModel.create(user);
-        return new User(
-            userMongooseModel?._id.toString()??'',
-            userMongooseModel?.username??'',
-            userMongooseModel?.password??'',
-        );
-    }
-    async deleteUser(uid: string):  Promise<any> {
-        return await UserModel.deleteOne({_id: uid});
-    }
-    async updateUser(uid: string, user: User): Promise<any> {
-        return await UserModel.updateOne({_id: uid}, {$set: {
-                username: user.uName,
-                password: user.pass
-            }});
-    }
-}
+    private constructor() {}
+    /**
+      * Retrieves all users from the database and returns an array of users.
+      */
+    findAllUsers = async (): Promise<User[]> =>
+        UserModel.find().exec();
+    /**
+      * Retrieves user object from the database for a particular user id and returns
+      * a user object.
+      * @param {String} uid user id
+      */
+    findUserById = async (uid: string): Promise<any> =>
+        UserModel.findById(uid);
+    /**
+     * Create user
+      * @param {User} user user object
+      */
+    createUser = async (user: User): Promise<User> =>
+        UserModel.create(user);
+    /** Update user
+      * @param {String} uid user id
+      * @param {User} user user object
+      */
+    updateUser = async (uid: string, user: User): Promise<any> =>
+        UserModel.updateOne(
+            {_id: uid},
+            {$set: user});
+    /** Delete the user
+      * @param {String} uid user id
+    **/
+    deleteUser = async (uid: string): Promise<any> =>
+        UserModel.deleteOne({_id: uid});
+};
