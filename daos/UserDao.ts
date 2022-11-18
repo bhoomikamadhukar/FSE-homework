@@ -33,6 +33,11 @@ export default class UserDao implements UserDaoI {
       */
     findUserById = async (uid: string): Promise<any> =>
         UserModel.findById(uid);
+  /**
+   * Retrieves all users with a specific username string from the database. Useful for testing
+   * @returns Promise To be notified when users with specific usernames are removed from the
+   * database
+   */
     /**
      * Create user
       * @param {User} user user object
@@ -60,5 +65,8 @@ export default class UserDao implements UserDaoI {
    */
    deleteUsersByUsername = async (username:string): Promise<any> =>
       UserModel.deleteMany({username:username});
+
+    findUserByUsername = async (username:string): Promise<any> =>
+       UserModel.findOne({username:username});
 
 };
