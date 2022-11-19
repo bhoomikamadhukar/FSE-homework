@@ -42,8 +42,10 @@ export default class TuitDao implements TuitDaoI {
      * @returns Promise To be notified when the tuits are retrieved from
      * database
      */
-    findTuitsByUser = async (uid: string): Promise<Tuit[]> =>
-        TuitModel.find({postedBy: uid});
+     findAllTuitsByUser = async (uid: string): Promise<Tuit[]> =>
+          TuitModel.find({ postedBy: uid })
+              .populate("postedBy")
+              .exec();
 
     /**
      * Uses TuitModel to retrieve single tuit document from tuits collection
@@ -52,14 +54,6 @@ export default class TuitDao implements TuitDaoI {
      */
     findTuitById = async (tid: string): Promise<any> =>
         TuitModel.findById(tid).populate("postedBy").exec();
-
-    /**
-     * Inserts tuit instance into the database
-     * @param {Tuit} tuit Instance to be inserted into the database
-     * @returns Promise To be notified when tuit is inserted into the database
-     */
-    createTuit = async (tuit: Tuit): Promise<Tuit> =>
-        TuitModel.create(tuit);
 
     /**
      * Inserts tuit instance for a particular user into the database

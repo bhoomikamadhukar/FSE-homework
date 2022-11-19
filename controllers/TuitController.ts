@@ -38,8 +38,7 @@ export default class TuitController implements TuitControllerI {
             TuitController.tuitController = new TuitController();
             app.get('/api/tuits', TuitController.tuitController.findAllTuits);
             app.get('/api/tuits/:tid', TuitController.tuitController.findTuitById);
-            app.get('/api/users/:uid/tuits', TuitController.tuitController.findTuitsByUser);
-            app.post('/api/tuits', TuitController.tuitController.createTuit);
+            app.get('/api/users/:uid/tuits', TuitController.tuitController.findAllTuitsByUser);
             app.post("/api/users/:uid/tuits", TuitController.tuitController.createTuitByUser);
             app.put('/api/tuits/:tid', TuitController.tuitController.updateTuit);
             app.delete('/api/tuits/:tid', TuitController.tuitController.deleteTuit);
@@ -70,30 +69,6 @@ export default class TuitController implements TuitControllerI {
         TuitController.tuitDao.findTuitById(req.params.tid)
             .then((tuit: Tuit) => res.json(tuit));
 
-    /**
-     * Retrieves all tuits from the database for a particular user and returns
-     * an array of tuits.
-     * @param {Request} req Represents request from client, including path
-     * parameter uid identifying primary key of the user to be retrieved
-     * @param {Response} res Represents response to client, including the
-     * body formatted as JSON arrays containing the tuit objects
-     */
-    findTuitsByUser = (req: Request, res: Response) =>
-        TuitController.tuitDao.findTuitsByUser(req.params.uid)
-            .then((tuit: Tuit[]) => res.json(tuit));
-
-    /**
-     * Creates a new tuit instance
-     * @param {Request} req Represents request from client, including body
-     * containing the JSON object for the new tuit to be inserted in the
-     * database
-     * @param {Response} res Represents response to client, including the
-     * body formatted as JSON containing the new tuit that was inserted in the
-     * database
-     */
-    createTuit = (req: Request, res: Response) =>
-        TuitController.tuitDao.createTuit(req.body)
-            .then((tuit: Tuit) => res.json(tuit))
 
     /**
      * Creates a new tuit instance
@@ -105,9 +80,31 @@ export default class TuitController implements TuitControllerI {
      * body formatted as JSON containing the new tuit that was inserted in the
      * database
      */
-    createTuitByUser = (req: Request, res: Response) =>
-        TuitController.tuitDao.createTuitByUser(req.params.uid, req.body)
-            .then((tuit: Tuit) => res.json(tuit))
+     createTuitByUser = (req:any, res:any) => {
+     let userId = req.params.uid === "me"
+
+               && req.session['profile'] ?
+
+               req.session['profile']._id :
+               req.params.uid;
+
+     TuitController.tuitDao
+       .createTuitByUser(userId, req.body)
+         .then((tuit) => res.json(tuit));
+   }
+
+   findAllTuitsByUser = (req: any, res: any) =>{
+           let userId = req.params.uid === "me"
+                     && req.session['profile'] ?
+                     req.session['profile']._id :
+                     req.params.uid;
+
+           TuitController.tuitDao
+           //@ts-ignore
+             .findAllTuitsByUser(userId)
+               .then((tuits) => res.json(tuits));
+         }
+
 
     /**
      * Modifies an existing tuit instance
