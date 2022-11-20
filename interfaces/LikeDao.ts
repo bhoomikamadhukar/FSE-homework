@@ -10,4 +10,6 @@ export default interface LikeDao {
     userUnlikesTuit(uid:string, tid:string):Promise<any>;
     findAllTuitsLikedByUser(uid:string):Promise<Like[]>;
     findAllUsersThatLikedTuit(tid:string):Promise<Like[]>;
+    countHowManyLikedTuit(tid:string):Promise<any>;
+    findUserLikesTuit(uid:string,tid:string):Promise<any>;
 }
