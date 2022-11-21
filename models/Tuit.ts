@@ -3,6 +3,7 @@
  * the Tuit datatype.
  */
 import User from "./User";
+import Stats from "./Stats"
 
 /**
  * @typedef Tuit Represents Tuits of Tuiter
@@ -16,5 +17,6 @@ export default class Tuit {
    private tuit: string = '';
    private postedOn: Date = new Date();
    private postedBy: User | null = null;
+   private stats:Stats| null = null;
 
 }

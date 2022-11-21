@@ -5,7 +5,7 @@
 import Tuit from "../models/Tuit";
 import TuitDaoI from "../interfaces/TuitDao";
 import TuitModel from "../mongoose/TuitModel";
-
+import Stats from "../models/Stats";
 /**
  * @class TuitDao Implements Data Access Object managing data storage
  * of Tuits
@@ -80,4 +80,11 @@ export default class TuitDao implements TuitDaoI {
      */
     deleteTuit = async (tid: string): Promise<any> =>
         TuitModel.deleteOne({_id: tid});
+
+
+    updateLikes =
+        async (tid: string, newStats: Stats) =>
+            TuitModel.updateOne(
+                { _id: tid },
+                { $set: { stats: newStats } });
 }
