@@ -10,6 +10,7 @@
  import MessageController from './controllers/MessageController';
  import BookmarkController from './controllers/BookmarkController';
  import AuthenticationController from './controllers/auth-Controller';
+  import DislikeController from "./controllers/DislikeController";
  const session = require("express-session");
 
 
@@ -46,6 +47,7 @@
   const followController = FollowController.getInstance(app);
   const bookmarkController = BookmarkController.getInstance(app);
   const messageController = MessageController.getInstance(app);
+  const dislikeController = DislikeController.getInstance(app);
  AuthenticationController(app);
 
 
