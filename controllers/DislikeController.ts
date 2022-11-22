@@ -130,6 +130,7 @@
        const uid = req.params.uid;
        const tid = req.params.tid;
        const profile = req.session['profile'];
+         //@ts-ignore
        const userId = uid === "me" && profile ?
            profile._id : uid;
        try {

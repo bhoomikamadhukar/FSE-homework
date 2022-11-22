@@ -1,5 +1,5 @@
 /**
- * @file Implements DAO managing data storage of likes. Uses mongoose DislikeModel
+ * @file Implements DAO managing data storage of likes. Uses mongoose LikeModel
  * to integrate to intergrate with MongoDB.
  */
 import Dislike from "../models/Dislike";
@@ -10,8 +10,8 @@ import Tuit from "../models/Tuit";
 
 /**
  * @class DislikeDao Implements Data Access Object managing data storage
- * of Dislikes
- * @property {DislikeDao} likeDao Private single instance of DislikeDao
+ * of Likes
+ * @property {LikeDao} likeDao Private single instance of LikeDao
  */
 export default class DislikeDao implements DislikeDaoI {
   /**
@@ -31,7 +31,7 @@ export default class DislikeDao implements DislikeDaoI {
     userReversesDislikedTuit = async (uid: string, tid: string): Promise<any> =>
         DislikeModel.deleteOne({tuit: tid, dislikedBy: uid});
     /**
-     * Uses DislikeModel to retrieve all likes to a
+     * Uses LikeModel to retrieve all likes to a
      * particular tuit.
      * @param {string} tid Tuits's primary key
      * @returns Promise To be notified when the likes are retrieved from
@@ -43,7 +43,7 @@ export default class DislikeDao implements DislikeDaoI {
             .populate("dislikedBy")
             .exec();
     /**
-     * Uses DislikeModel to retrieve all tuits liked by a particular
+     * Uses LikeModel to retrieve all tuits liked by a particular
      * user
      * @param {string} uid User's primary key
      * @returns Promise To be notified when the messages are retrieved from
@@ -69,7 +69,7 @@ export default class DislikeDao implements DislikeDaoI {
 
     /**
      * Creates singleton DAO instance
-     * @returns DislikesDao
+     * @returns LikesDao
      */
     private static dislikeDao: DislikeDao | null = null;
     public static getInstance = (): DislikeDao => {
