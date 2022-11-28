@@ -82,6 +82,7 @@ export default class TuitDao implements TuitDaoI {
         TuitModel.deleteOne({_id: tid});
 
 
+
     updateLikes =
         async (tid: string, newStats: Stats) =>
             TuitModel.updateOne(
@@ -92,5 +93,7 @@ export default class TuitDao implements TuitDaoI {
               TuitModel.updateOne(
                   { _id: tid },
                   { $set: { stats: newStats } });
+
+
 
 }
